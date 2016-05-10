@@ -1,0 +1,17 @@
+systemctl enable mariadb
+systemctl start mariadb
+
+mysql_secure_installation
+
+mysql -uroot -p 
+
+CREATE DATABASE budget;
+GRANT ALL PRIVILEGES ON budget.* TO 'budgetmaker'@'localhost';
+exit;
+
+
+mysql -ubudgetmaker budget 
+
+CREATE TABLE transactions (date DATE, cents INT, title TINYBLOB);
+INSERT INTO transactions VALUES (
+
