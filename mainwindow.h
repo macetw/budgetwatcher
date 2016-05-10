@@ -3,23 +3,29 @@
 
 #include <QMainWindow>
 
+class QSqlQueryModel;
+
 namespace Ui {
 class MainWindow;
 }
 
 class MainWindow : public QMainWindow
 {
-    Q_OBJECT
+  Q_OBJECT
 
 public:
-    explicit MainWindow(QWidget *parent = 0);
-    ~MainWindow();
+  explicit MainWindow(QWidget *parent = 0);
+  ~MainWindow();
 
 private slots:
   void accept();
 
 private:
-    Ui::MainWindow *ui;
+  void updateData();
+
+  Ui::MainWindow *ui;
+
+  QSqlQueryModel *model;
 };
 
 #endif // MAINWINDOW_H

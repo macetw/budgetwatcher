@@ -12,6 +12,12 @@ exit;
 
 mysql -ubudgetmaker budget 
 
-CREATE TABLE transactions (date DATE, cents INT, title TINYBLOB);
-INSERT INTO transactions VALUES (
+DROP TABLE IF EXISTS transactions;
+CREATE TABLE transactions (account INT, date DATE, cents INT, title TINYBLOB);
+INSERT INTO transactions VALUES (1, '2016-06-03', 534, 'five dollars');
+INSERT INTO transactions VALUES (1, '2016-06-02', 601, 'six dollars');
+INSERT INTO transactions VALUES (1, '2016-06-01', 742, 'seven dollars');
+INSERT INTO transactions VALUES (2, '2016-06-01', 100, 'other account');
+
+SELECT date,cents,title FROM transactions WHERE account=1 ORDER BY date;
 
