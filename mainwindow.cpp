@@ -32,8 +32,9 @@ void MainWindow::updateData()
   db.setDatabaseName( "budget" );
   db.open();
 
-  QString select( "SELECT Date,cents/100 AS Value,title AS Description FROM transactions "
-                  "WHERE account=1 ORDER BY date;" );
+  //QString select( "SELECT Date,cents/100 AS Value,title AS Description FROM transactions "
+  //                "WHERE account=1 ORDER BY date;" );
+  QString select( "SELECT Date, cents/100 AS Value, ( select sum(-cents) + (select balance from balances where account = 1) from transactions where date <= O.date AND account = O.account) AS Balance, title as Description from transactions O where account = 1 order by date;" );
 
   QSqlQuery query( select, db );
 

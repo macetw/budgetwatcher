@@ -13,11 +13,18 @@ exit;
 mysql -ubudgetmaker budget 
 
 DROP TABLE IF EXISTS transactions;
-CREATE TABLE transactions (account INT, date DATE, cents INT, title TINYBLOB);
-INSERT INTO transactions VALUES (1, '2016-06-03', 534, 'five dollars');
-INSERT INTO transactions VALUES (1, '2016-06-02', 601, 'six dollars');
-INSERT INTO transactions VALUES (1, '2016-06-01', 742, 'seven dollars');
-INSERT INTO transactions VALUES (2, '2016-06-01', 100, 'other account');
+CREATE TABLE transactions (ID id UNIQUE, account TINYINT, date DATE, cents INT, title TINYBLOB);
+INSERT INTO transactions VALUES (1, 1, '2016-06-03', 534, 'five dollars');
+INSERT INTO transactions VALUES (2, 1, '2016-06-02', 601, 'six dollars');
+INSERT INTO transactions VALUES (3, 1, '2016-06-01', 742, 'seven dollars');
+INSERT INTO transactions VALUES (4, 2, '2016-06-01', 100, 'other account');
+
+DROP TABLE IF EXISTS balances;
+CREATE TABLE balances (account TINYINT, balance INT, title TINYBLOB);
+INSERT INTO balances VALUES(1, 100000, 'Wells Fargo');
+INSERT INTO balances VALUES(2, 50000,  'HSA');
+INSERT INTO balances VALUES(3, 100000, 'First National Bank');
 
 SELECT date,cents,title FROM transactions WHERE account=1 ORDER BY date;
 
+select date, title, cents, ( select sum(-cents) + (select balance from balances where account = 1) from transactions where date <= O.date AND account = O.account) AS subtotal  from transactions O where account = 1 order by date;
