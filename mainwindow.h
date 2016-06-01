@@ -21,6 +21,7 @@ public:
 private slots:
   void add();
   void accept();
+  void enableDisableWidgets();
 
 private:
   void updateData();

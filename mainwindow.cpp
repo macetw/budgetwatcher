@@ -34,6 +34,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
   connect(ui->buttonBox, &QDialogButtonBox::accepted, this, &MainWindow::accept );
   connect(ui->mAddButton, SIGNAL(clicked()), this, SLOT(add()) );
+  connect(ui->mAmount, SIGNAL(valueChanged(double)), this, SLOT(enableDisableWidgets()) );
+  connect(ui->mDescription, SIGNAL(textEdited(const QString&)), this, SLOT(enableDisableWidgets()) );
 
   model = new BudgetHistoryModel( this );
   ui->tableView->setModel( model );
@@ -45,6 +47,7 @@ MainWindow::MainWindow(QWidget *parent) :
   db.open();
 
   updateData();
+  enableDisableWidgets();
 }
 
 MainWindow::~MainWindow()
@@ -80,10 +83,21 @@ void MainWindow::add()
   query.prepare( insert );
   query.bindValue( 0, ui->mDate->date() );
   query.bindValue( 1, ui->mAmount->value()*100 );
-  query.bindValue( 2, ui->mDescription->text() );
+  query.bindValue( 2, ui->mDescription->text().trimmed() );
   query.exec();
 
   updateData();
+
+  ui->mAmount->setValue(0.0);
+  ui->mDescription->setText("");
+}
+
+
+void MainWindow::enableDisableWidgets()
+{
+  bool enable = (ui->mAmount->value() != 0.0 &&
+                 !ui->mDescription->text().trimmed().isEmpty());
+  ui->mAddButton->setEnabled( enable );
 }
 
 /*---------------------------------------------------------------------
