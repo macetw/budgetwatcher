@@ -27,8 +27,8 @@ QVariant BudgetHistoryModel::data(const QModelIndex& index,
     } else {
       QModelIndex myDateIndex = sibling( row, DateColumn, index );
       QModelIndex compareDateIndex = sibling( row-1, DateColumn, index );
-      QDate myDate = myDateIndex.data().toDate();
-      QDate compareDate = compareDateIndex.data().toDate();
+      QDate myDate = myDateIndex.data(Qt::DisplayRole).toDate();
+      QDate compareDate = compareDateIndex.data(Qt::DisplayRole).toDate();
 
       if (myDate.month() != compareDate.month() ||
           myDate.year() != compareDate.year()) {
