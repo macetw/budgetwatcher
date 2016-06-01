@@ -1,0 +1,21 @@
+As a <Budget user>
+  I would like to <Add a row to my budget>
+  So that I can <forecast by budget into the future>
+
+
+Given <a known bill in the future>
+  When I <put due dates in and the amount of the bill and click "Add">
+  Then I <would expect the new data to appear on the table>
+
+Given <a blank description input (debit)>
+  When I <click Add>
+  Then I <would expect the data to be rejected and the Add button is disabled>
+
+Given <a zero amount>
+  When I <click Add>
+  Then I <would expect the data to be rejected and the Add button is disabled>
+
+Given <a known income in the future (profit)>
+  When I <put due dates in and the amount of the bill and click "Add">
+  Then I <would expect the new data to appear on the table>
+
