@@ -5,6 +5,8 @@
 #include <QPalette>
 
 static const int DateColumn = 0;
+static const int AmountColumn = 1;
+static const int SubtotalColumn = 2;
 
 /*---------------------------------------------------------------------
  *       BudgetHistoryModel::BudgetHistoryModel()
@@ -38,13 +40,15 @@ BudgetHistoryModel::BudgetHistoryModel( QObject* parent )
 QVariant BudgetHistoryModel::data(const QModelIndex& index,
                                   int role) const
 {
-  if (role != Qt::BackgroundRole) {
-    return QSqlQueryModel::data(index, role);
-  } else {
+  const int row = index.row();
+  const int column = index.column();
+
+  QVariant datum;
+
+  if (role == Qt::BackgroundRole) {
     QPalette palette;
     QBrush brush( palette.base() );
 
-    int row = index.row();
     if (row == 0) {
       brush = palette.alternateBase();
     } else {
@@ -58,7 +62,22 @@ QVariant BudgetHistoryModel::data(const QModelIndex& index,
         brush = palette.alternateBase();
       }
     }
-    return brush;
+    datum = brush;
+  } else if (role == Qt::ForegroundRole &&
+             (column == AmountColumn || column == SubtotalColumn) ) {
+    QPalette palette;
+    QBrush brush( palette.text() );
+    QVariant amount = QSqlQueryModel::data( index, Qt::DisplayRole );
+    if (amount.toDouble() < 0.0) {
+      brush.setColor( Qt::darkRed );
+    } else {
+      brush.setColor( Qt::darkGreen );
+    }
+    datum = brush;
+
+  } else {
+    datum = QSqlQueryModel::data(index, role);
   }
+  return datum;
 }
 
