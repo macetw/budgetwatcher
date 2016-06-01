@@ -1,0 +1,21 @@
+As a <Budget user>
+  I want to <have independent "Add Credit" and "Add Debit" buttons>
+  So that <I don't have to worry about a negative sign in my spin box>
+
+
+Given a <negative amount value>
+  when I <try to enter the negative value>
+  then it <prevents me from entering it>
+
+Given a <running of the application>
+  When I <run it>
+  Then <the Add Credit and Add Debit buttons appear independently, Credit has green text and Debit has red text>
+
+Given a <set of credit values>
+  When I <click Add Credit>
+  Then <the amounts appear as positive and in green on the table>
+  
+Given a <set of debug values>
+  When I <click Add Debit>
+  Then <the amounts appear as negative and in red on the table>
+
