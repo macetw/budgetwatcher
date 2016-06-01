@@ -26,7 +26,6 @@ MainWindow::MainWindow(QWidget *parent) :
   ui->mDate->setDate( QDate::currentDate() );
   ui->mDate->setMinimumDate( QDate::currentDate() );
 
-  // DB driver check is untested.
   const bool supported = QSqlDatabase::isDriverAvailable( "QMYSQL" );
   if (!supported) {
     QMessageBox::critical( this, "Unsupported Database", "MySQL is not supported on this device. Cannot continue." );
