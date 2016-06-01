@@ -4,6 +4,7 @@
 #include <QMainWindow>
 
 class QSqlQueryModel;
+class BudgetHistoryModel;
 
 namespace Ui {
 class MainWindow;
@@ -25,7 +26,7 @@ private:
 
   Ui::MainWindow *ui;
 
-  QSqlQueryModel *model;
+  BudgetHistoryModel *model;
 };
 
 #endif // MAINWINDOW_H

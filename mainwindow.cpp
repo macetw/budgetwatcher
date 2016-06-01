@@ -1,9 +1,9 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "budgethistorymodel.h"
 
 #include <QSqlQuery>
 #include <QSqlDatabase>
-#include <QSqlQueryModel>
 #include <QMessageBox>
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -20,7 +20,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
   connect(ui->buttonBox, &QDialogButtonBox::accepted, this, &MainWindow::accept );
 
-  model = new QSqlQueryModel;
+  model = new BudgetHistoryModel( this );
   ui->tableView->setModel( model );
 
   updateData();
