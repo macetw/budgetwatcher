@@ -19,11 +19,13 @@ public:
   ~MainWindow();
 
 private slots:
-  void add();
+  void addDebit();
+  void addCredit();
   void accept();
   void enableDisableWidgets();
 
 private:
+  void add(int multiplier);
   void updateData();
 
   Ui::MainWindow *ui;

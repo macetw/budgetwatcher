@@ -23,6 +23,12 @@ MainWindow::MainWindow(QWidget *parent) :
 {
   ui->setupUi(this);
 
+  QPalette pal( palette() );
+  pal.setColor( QPalette::ButtonText, Qt::darkRed );
+  ui->mDebitButton->setPalette( pal );
+  pal.setColor( QPalette::ButtonText, Qt::darkGreen );
+  ui->mCreditButton->setPalette( pal );
+
   ui->mDate->setDate( QDate::currentDate() );
   ui->mDate->setMinimumDate( QDate::currentDate() );
 
@@ -33,7 +39,8 @@ MainWindow::MainWindow(QWidget *parent) :
   }
 
   connect(ui->buttonBox, &QDialogButtonBox::accepted, this, &MainWindow::accept );
-  connect(ui->mAddButton, SIGNAL(clicked()), this, SLOT(add()) );
+  connect(ui->mCreditButton, SIGNAL(clicked()), this, SLOT(addCredit()) );
+  connect(ui->mDebitButton, SIGNAL(clicked()), this, SLOT(addDebit()) );
   connect(ui->mAmount, SIGNAL(valueChanged(double)), this, SLOT(enableDisableWidgets()) );
   connect(ui->mDescription, SIGNAL(textEdited(const QString&)), this, SLOT(enableDisableWidgets()) );
 
@@ -69,12 +76,51 @@ void MainWindow::accept()
 
 
 /*---------------------------------------------------------------------
+ *       MainWindow::addCredit()
+ */
+/*! 
+ * \brief   Wrapper to respond to the "Credit" button.
+ */
+void MainWindow::addCredit()
+{
+  add(1);
+}
+
+
+/*---------------------------------------------------------------------
+ *       MainWindow::addDebit()
+ */
+/*! 
+ * \brief   Wrapper to respond to the "Debit" button.
+ */
+void MainWindow::addDebit()
+{
+  add(-1);
+}
+
+
+/*---------------------------------------------------------------------
+ *       MainWindow::enableDisableWidgets()
+ */
+/*! 
+ * \brief   Responds to user editing to reflect the enable state of "add"
+ */
+void MainWindow::enableDisableWidgets()
+{
+  bool enable = (ui->mAmount->value() != 0.0 &&
+                 !ui->mDescription->text().trimmed().isEmpty());
+  ui->mCreditButton->setEnabled( enable );
+  ui->mDebitButton->setEnabled( enable );
+}
+
+
+/*---------------------------------------------------------------------
  *       MainWindow::add()
  */
 /*! 
  * \brief   Responds to the "Add" button to add a single row.
  */
-void MainWindow::add()
+void MainWindow::add(int multiplier)
 {
   QString date( ui->mDate->date().toString( Qt::ISODate ) );
   QString insert = "INSERT INTO transactions VALUES (NULL, 1, ?, ?, ?)";
@@ -82,7 +128,7 @@ void MainWindow::add()
   QSqlQuery query;
   query.prepare( insert );
   query.bindValue( 0, ui->mDate->date() );
-  query.bindValue( 1, ui->mAmount->value()*100 );
+  query.bindValue( 1, ui->mAmount->value()*100*multiplier );
   query.bindValue( 2, ui->mDescription->text().trimmed() );
   query.exec();
 
@@ -92,13 +138,6 @@ void MainWindow::add()
   ui->mDescription->setText("");
 }
 
-
-void MainWindow::enableDisableWidgets()
-{
-  bool enable = (ui->mAmount->value() != 0.0 &&
-                 !ui->mDescription->text().trimmed().isEmpty());
-  ui->mAddButton->setEnabled( enable );
-}
 
 /*---------------------------------------------------------------------
  *       MainWindow::updateData()

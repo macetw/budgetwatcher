@@ -39,8 +39,11 @@
            <property name="prefix">
             <string>$</string>
            </property>
+           <property name="minimum">
+            <double>0</double>
+           </property>
            <property name="maximum">
-            <double>9999.989999999999782</double>
+            <double>9999.99</double>
            </property>
           </widget>
          </widget>
@@ -68,9 +71,16 @@
            </spacer>
           </item>
           <item>
-           <widget class="QPushButton" name="mAddButton">
+           <widget class="QPushButton" name="mCreditButton">
             <property name="text">
-             <string>Add</string>
+             <string>Add Credit</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="mDebitButton">
+            <property name="text">
+             <string>Add Debit</string>
             </property>
            </widget>
           </item>
