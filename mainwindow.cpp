@@ -4,12 +4,19 @@
 #include <QSqlQuery>
 #include <QSqlDatabase>
 #include <QSqlQueryModel>
+#include <QMessageBox>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
   ui->setupUi(this);
+
+  const bool supported = QSqlDatabase::isDriverAvailable( "QMYSQL" );
+  if (!supported) {
+    QMessageBox::critical( this, "Unsupported Database", "MySQL is not supported on this device. Cannot continue." );
+    accept();
+  }
 
   connect(ui->buttonBox, &QDialogButtonBox::accepted, this, &MainWindow::accept );
 

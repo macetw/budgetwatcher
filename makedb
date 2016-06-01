@@ -10,14 +10,19 @@ GRANT ALL PRIVILEGES ON budget.* TO 'budgetmaker'@'localhost';
 exit;
 
 
+mysql -h budgetwatcher.clz6jgg0hiys.us-east-1.rds.amazonaws.com -P3306 -u budgetwatcher -p budgetwatcher 
+
+Schofieldbw
+
+
 mysql -ubudgetmaker budget 
 
 DROP TABLE IF EXISTS transactions;
-CREATE TABLE transactions (ID id UNIQUE, account TINYINT, date DATE, cents INT, title TINYBLOB);
-INSERT INTO transactions VALUES (1, 1, '2016-06-03', 534, 'five dollars');
-INSERT INTO transactions VALUES (2, 1, '2016-06-02', 601, 'six dollars');
-INSERT INTO transactions VALUES (3, 1, '2016-06-01', 742, 'seven dollars');
-INSERT INTO transactions VALUES (4, 2, '2016-06-01', 100, 'other account');
+CREATE TABLE transactions (id INT PRIMARY KEY AUTO_INCREMENT NOT NULL, account TINYINT, date DATE, cents INT, title TINYBLOB);
+INSERT INTO transactions VALUES (NULL, 1, '2016-06-03', 534, 'five dollars');
+INSERT INTO transactions VALUES (NULL, 1, '2016-06-02', 601, 'six dollars');
+INSERT INTO transactions VALUES (NULL, 1, '2016-06-01', 742, 'seven dollars');
+INSERT INTO transactions VALUES (NULL, 2, '2016-06-01', 100, 'other account');
 
 DROP TABLE IF EXISTS balances;
 CREATE TABLE balances (account TINYINT, balance INT, title TINYBLOB);
