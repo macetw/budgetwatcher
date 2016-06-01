@@ -1,7 +1,10 @@
 #include "budgethistorymodel.h"
 
 #include <QBrush>
+#include <QDate>
+#include <QPalette>
 
+static const int DateColumn = 0;
 
 BudgetHistoryModel::BudgetHistoryModel( QObject* parent )
   : QSqlQueryModel( parent )
@@ -15,12 +18,22 @@ QVariant BudgetHistoryModel::data(const QModelIndex& index,
   if (role != Qt::BackgroundRole) {
     return QSqlQueryModel::data(index, role);
   } else {
-    QBrush brush;
-    brush.setStyle( Qt::SolidPattern );
-    if (index.row() % 2 == 0) {
-      brush.setColor( Qt::lightGray );
+    QPalette palette;
+    QBrush brush( palette.base() );
+
+    int row = index.row();
+    if (row == 0) {
+      brush = palette.alternateBase();
     } else {
-      brush.setColor( Qt::white );
+      QModelIndex myDateIndex = sibling( row, DateColumn, index );
+      QModelIndex compareDateIndex = sibling( row-1, DateColumn, index );
+      QDate myDate = myDateIndex.data().toDate();
+      QDate compareDate = compareDateIndex.data().toDate();
+
+      if (myDate.month() != compareDate.month() ||
+          myDate.year() != compareDate.year()) {
+        brush = palette.alternateBase();
+      }
     }
     return brush;
   }
