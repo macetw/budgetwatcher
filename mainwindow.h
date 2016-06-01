@@ -19,6 +19,7 @@ public:
   ~MainWindow();
 
 private slots:
+  void add();
   void accept();
 
 private:
