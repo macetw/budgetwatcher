@@ -28,19 +28,6 @@
            <enum>Qt::Horizontal</enum>
           </property>
           <widget class="QDateEdit" name="mDate">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Ignored" vsizetype="Fixed">
-             <horstretch>1</horstretch>
-             <verstretch>1</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="minimumDate">
-            <date>
-             <year>1752</year>
-             <month>9</month>
-             <day>14</day>
-            </date>
-           </property>
            <property name="displayFormat">
             <string>M/d/yyyy</string>
            </property>
@@ -49,12 +36,6 @@
            </property>
           </widget>
           <widget class="QDoubleSpinBox" name="mAmount">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Ignored" vsizetype="Fixed">
-             <horstretch>1</horstretch>
-             <verstretch>1</verstretch>
-            </sizepolicy>
-           </property>
            <property name="prefix">
             <string>$</string>
            </property>
