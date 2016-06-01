@@ -6,12 +6,35 @@
 
 static const int DateColumn = 0;
 
+/*---------------------------------------------------------------------
+ *       BudgetHistoryModel::BudgetHistoryModel()
+ */
+/*! 
+ * \brief   Constructor.
+ *
+ * \param parent   Parent
+ */
 BudgetHistoryModel::BudgetHistoryModel( QObject* parent )
   : QSqlQueryModel( parent )
 {
 }
 
 
+/*---------------------------------------------------------------------
+ *       BudgetHistoryModel::data()
+ */
+/*! 
+ * \brief    Handles only the "Background Role" to get specialized
+ *           behavior to give a visual clue of the separation of each
+ *           month.
+ *
+ * \param index    Index for the data
+ * \param role     Role needed
+ *
+ * \return   Returns the base or alternateBase of the data.
+ *
+ * \sa QAbstractItemModel::data()
+ */
 QVariant BudgetHistoryModel::data(const QModelIndex& index,
                                   int role) const
 {
@@ -38,5 +61,4 @@ QVariant BudgetHistoryModel::data(const QModelIndex& index,
     return brush;
   }
 }
-    
 

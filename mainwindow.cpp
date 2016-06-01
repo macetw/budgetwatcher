@@ -6,6 +6,17 @@
 #include <QSqlDatabase>
 #include <QMessageBox>
 
+
+/*---------------------------------------------------------------------
+ *       MainWindow::MainWindow()
+ */
+/*! 
+ * \brief  Constructor. Connects to the database, sets up some
+ *         defaults based on the current day, connects up the slots,
+ *         and ensures that the DB can connect.
+ *
+ * \param parent   The parent of the widget.
+ */
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -15,6 +26,7 @@ MainWindow::MainWindow(QWidget *parent) :
   ui->mDate->setDate( QDate::currentDate() );
   ui->mDate->setMinimumDate( QDate::currentDate() );
 
+  // DB driver check is untested.
   const bool supported = QSqlDatabase::isDriverAvailable( "QMYSQL" );
   if (!supported) {
     QMessageBox::critical( this, "Unsupported Database", "MySQL is not supported on this device. Cannot continue." );
@@ -36,11 +48,30 @@ MainWindow::MainWindow(QWidget *parent) :
   updateData();
 }
 
+MainWindow::~MainWindow()
+{
+    delete ui;
+}
+
+
+/*---------------------------------------------------------------------
+ *       MainWindow::accept()
+ */
+/*! 
+ * \brief   To close down the application.
+ */
 void MainWindow::accept()
 {
   qApp->closeAllWindows();
 }
 
+
+/*---------------------------------------------------------------------
+ *       MainWindow::add()
+ */
+/*! 
+ * \brief   Responds to the "Add" button to add a single row.
+ */
 void MainWindow::add()
 {
   QString date( ui->mDate->date().toString( Qt::ISODate ) );
@@ -56,6 +87,12 @@ void MainWindow::add()
   updateData();
 }
 
+/*---------------------------------------------------------------------
+ *       MainWindow::updateData()
+ */
+/*! 
+ * \brief   Updates the view to reflect the latest DB.
+ */
 void MainWindow::updateData()
 {
   //QString select( "SELECT Date,cents/100 AS Value,title AS Description FROM transactions "
@@ -68,7 +105,3 @@ void MainWindow::updateData()
 }
 
 
-MainWindow::~MainWindow()
-{
-    delete ui;
-}
